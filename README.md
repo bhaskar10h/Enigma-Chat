@@ -2,20 +2,20 @@
 
 ![terminal](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/4ac65092-f17b-443e-8d28-2e9f96175e68)
 
-<p id="description">A Simple Client to Client chat through the terminal with mid-level secure.</p>
+<p id="description">A Simple Client-to-client chat through the terminal with mid-level secure.</p>
 
 <h2>Project Screenshots:</h2>
 
-<img src="![Server on-line](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/63d6baa9-ea0a-4a70-bca2-0d18419a5f15)
-" alt="project-screenshot" width="400" height="400/">
+![Server on-line](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/42fad1ce-f9b9-4f0e-84ed-d12857337eb6)
 
-<img src="file:///C:/Users/bhask/Pictures/Screenshots/server%20connect%20-%20client-1.png" alt="project-screenshot" width="400" height="400/">
+![server connect - client-1](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/c82a5dbb-55ed-4406-bb34-f1ab86abd409)
 
-<img src="file:///C:/Users/bhask/Pictures/Screenshots/server%20connect%20-%20client%20-%202.png" alt="project-screenshot" width="400" height="400/">
+![server connect - client - 2](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/496af72f-1db6-4570-a758-4d9ac65d8e04)
 
-<img src="file:///C:/Users/bhask/Pictures/Screenshots/Client-1%20Sent.png" alt="project-screenshot" width="400" height="400/">
+![Client-1 Sent](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/1f5c3179-70d9-4e67-b37d-063b4c4029d2)
 
-<img src="file:///C:/Users/bhask/Pictures/Screenshots/Client-2%20Received.png" alt="project-screenshot" width="400" height="400/">
+![Client-2 Received](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/00ee9cc5-49f3-4efc-b625-ccc06ba5c205)
+
 
 <h2>🛠️ Running Steps:</h2>
 
