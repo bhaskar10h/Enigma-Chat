@@ -5,7 +5,8 @@
 <p id="description">A Simple Client-to-client chat through the terminal with mid-level secure.</p>
 
 <h2>Project Screenshots:</h2>
-![Server listening](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/f4d2d917-4514-4392-a8d6-cbbdbf5895f4)
+
+![Server listening](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/15260008-0683-4044-b04c-e1131453d37f)
 
 ![Server listened Client-1](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/029f30af-6501-49f0-95dc-fecf07d5fd99)
 
