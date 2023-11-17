@@ -2,7 +2,7 @@ import socket
 import threading
 
 # Define the server address (host and port)
-host = '127.0.0.1'
+host = '0.0.0.0'  # Listen on all available interfaces
 port = 12345
 
 # Create a socket object
