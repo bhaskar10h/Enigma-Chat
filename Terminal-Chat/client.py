@@ -30,9 +30,9 @@ try:
 
     while True:
         # Get user input and send it to the server
-        message = input("Enter a message to send to the server (type 'exit' to quit): ")
-        
-        if message.lower() == 'exit':
+        message = input("Enter a message to send to the server (type 'q' to quit): ")
+        print("\n")
+        if message.lower() == 'q':
             break
         
         client_socket.sendall(message.encode('utf-8'))
