@@ -2,11 +2,12 @@
 
 ![terminal](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/4ac65092-f17b-443e-8d28-2e9f96175e68)
 
-<p id="description">A Simple Client to Client chat through terminal with mid-level secure.</p>
+<p id="description">A Simple Client to Client chat through the terminal with mid-level secure.</p>
 
 <h2>Project Screenshots:</h2>
 
-<img src="file:///C:/Users/bhask/Pictures/Screenshots/Server%20on-line.png" alt="project-screenshot" width="400" height="400/">
+<img src="![Server on-line](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/63d6baa9-ea0a-4a70-bca2-0d18419a5f15)
+" alt="project-screenshot" width="400" height="400/">
 
 <img src="file:///C:/Users/bhask/Pictures/Screenshots/server%20connect%20-%20client-1.png" alt="project-screenshot" width="400" height="400/">
 
@@ -16,7 +17,7 @@
 
 <img src="file:///C:/Users/bhask/Pictures/Screenshots/Client-2%20Received.png" alt="project-screenshot" width="400" height="400/">
 
-<h2>🛠️ Installation Steps:</h2>
+<h2>🛠️ Running Steps:</h2>
 
 <p>1. open your command-terminal</p>
 
