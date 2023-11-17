@@ -1,6 +1,6 @@
 <h1 id="title">Terminal-Chat application</h1>
 
-![terminal](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/4ac65092-f17b-443e-8d28-2e9f96175e68)
+![712c3f5465ec5b2606f4a675b2338328](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/25f8ce06-6ead-4098-a997-346a607da100)
 
 <p id="description">A Simple Client-to-client chat through the terminal with mid-level secure.</p>
 
