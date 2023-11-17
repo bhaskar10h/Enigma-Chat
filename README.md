@@ -6,15 +6,15 @@
 
 <h2>Project Screenshots:</h2>
 
-![Server on-line](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/42fad1ce-f9b9-4f0e-84ed-d12857337eb6)
+![Server listening](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/9e4e784a-e800-4902-9544-8a917e987794)
 
-![server connect - client-1](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/c82a5dbb-55ed-4406-bb34-f1ab86abd409)
+![Server listened Client-1](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/029f30af-6501-49f0-95dc-fecf07d5fd99)
 
-![server connect - client - 2](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/496af72f-1db6-4570-a758-4d9ac65d8e04)
+![Server listened Client-2](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/940fd4ff-7ad1-4517-b864-27a61d8adbc8)
 
-![Client-1 Sent](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/1f5c3179-70d9-4e67-b37d-063b4c4029d2)
+![Client-1 Sent](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/ff41c2af-ddff-4b03-95b0-2de040dd4fb1)
 
-![Client-2 Received](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/00ee9cc5-49f3-4efc-b625-ccc06ba5c205)
+![Client-2 Received](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/0a81e61d-2157-4617-a7a8-a05bd1426b83)
 
 
 <h2>🛠️ Running Steps:</h2>
