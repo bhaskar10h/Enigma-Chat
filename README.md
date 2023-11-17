@@ -1,6 +1,6 @@
 <h1 align="center" id="title">Terminal-Chat application</h1>
 
-<p align="center"><img src="![terminal](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/4ac65092-f17b-443e-8d28-2e9f96175e68)" alt="project-image"></p>
+<p align="center"><img src="(https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/4ac65092-f17b-443e-8d28-2e9f96175e68)" alt="project-image"></p>
 
 <p id="description">A Simple Client to Client chat through terminal with mid-level secure.</p>
 
