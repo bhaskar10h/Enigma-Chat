@@ -24,13 +24,13 @@
 cd "Project destination"
 ```
 
-<p>2. Now the run the server script to start</p>
+<p>2. Now run the server.py script to start</p>
 
 ```
 python server.py
 ```
 
-<p>3. After running the serverpy on another terminal run the client script</p>
+<p>3. After running the server.py on another terminal run the client.py script</p>
 
 ```
 python client.py
