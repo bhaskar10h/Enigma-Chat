@@ -1,6 +1,6 @@
 <h1 id="title">Terminal-Chat application</h1>
 
-![712c3f5465ec5b2606f4a675b2338328](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/25f8ce06-6ead-4098-a997-346a607da100)
+<iframe src="https://giphy.com/embed/MfnJATkfrAIBG" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/stickers/chat-MfnJATkfrAIBG">via GIPHY</a></p>
 
 <p id="description">A Simple Client-to-client chat through the terminal with mid-level secure.</p>
 
