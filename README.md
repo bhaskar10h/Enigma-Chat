@@ -5,14 +5,13 @@
 <p id="description">A Simple Client-to-client chat through the terminal with mid-level secure.</p>
 
 <h2>Project Screenshots:</h2>
-
-![Server listening](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/9e4e784a-e800-4902-9544-8a917e987794)
+![Server listening](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/f4d2d917-4514-4392-a8d6-cbbdbf5895f4)
 
 ![Server listened Client-1](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/029f30af-6501-49f0-95dc-fecf07d5fd99)
 
 ![Server listened Client-2](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/940fd4ff-7ad1-4517-b864-27a61d8adbc8)
 
-![Client-1 Sent](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/ff41c2af-ddff-4b03-95b0-2de040dd4fb1)
+![Client-1 Sent](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/7cab15f8-0bb5-4672-8bba-f6d2ce9243b7)
 
 ![Client-2 Received](https://github.com/bhaskar10h/Terminal-Chat-App/assets/112790780/0a81e61d-2157-4617-a7a8-a05bd1426b83)
 
