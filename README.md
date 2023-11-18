@@ -37,7 +37,7 @@ python server.py
 python client.py
 ```
 
-  
+<p>To have chat between two terminals, run two separate "Client"-scripts</p>
   
 <h2>💻 Built with</h2>
 
