@@ -49,3 +49,9 @@ Technologies used in the project:
 <h2>🛡️ License:</h2>
 
 This project is licensed under the Unlicense
+
+
+<h2> Features/Changes added : </h2>
+<li> Broadcast messages to all clients with a prefix indicating the sender </li>
+<li> Server command handling </li>
+<li> Handle disconnections gracefully </li>
