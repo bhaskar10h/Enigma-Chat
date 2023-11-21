@@ -18,22 +18,34 @@ print(f"Server listening on {host}:{port}")
 # List to store client sockets
 client_sockets = []
 
-def handle_client(client_socket):
-    while True:
-        # Receive data from the client
-        data = client_socket.recv(1024)
-        
-        if not data:
-            break  # Connection closed by the client
-        
-        # Send the received data to all other clients
-        for other_client_socket in client_sockets:
-            if other_client_socket != client_socket:
-                other_client_socket.sendall(data)
+def handle_client(client_socket, client_address):
+    try:
+        while True:
+            data = client_socket.recv(1024)
+            if not data:
+                break
 
-    # Remove the closed client's socket from the list
-    client_sockets.remove(client_socket)
-    client_socket.close()
+            decoded_data = data.decode()
+            if decoded_data.startswith("/list_clients"):
+                # Send a list of connected clients to the requesting client
+                client_socket.sendall(str(client_sockets).encode())
+            elif decoded_data.startswith("/server_broadcast"):
+                # Broadcast a server message to all clients
+                message = "Server: " + decoded_data[len("/server_broadcast"):].strip()
+                for other_client_socket in client_sockets:
+                    if other_client_socket != client_socket:
+                        other_client_socket.sendall(message.encode())
+            else:
+                # Broadcast the message to all other clients with sender's address
+                message = f"{client_address}: {decoded_data}"
+                for other_client_socket in client_sockets:
+                    if other_client_socket != client_socket:
+                        other_client_socket.sendall(message.encode())
+    except Exception as e:
+        print(f"Client {client_address} disconnected: {e}")
+    finally:
+        client_sockets.remove(client_socket)
+        client_socket.close()
 
 while True:
     # Accept a connection from a client
@@ -44,5 +56,5 @@ while True:
     client_sockets.append(client_socket)
 
     # Start a new thread to handle the client
-    client_thread = threading.Thread(target=handle_client, args=(client_socket,))
+    client_thread = threading.Thread(target=handle_client, args=(client_socket, client_address))
     client_thread.start()
