@@ -6,13 +6,19 @@ def receive_messages(client_socket):
         try:
             # Receive and print messages from the server
             data = client_socket.recv(1024)
+            if not data:
+                print("Connection with the server was closed.")
+                break
             print(f"Received from server: {data.decode('utf-8')}")
         except ConnectionResetError:
             print("Connection with the server was reset.")
             break
+        except Exception as e:
+            print(f"An error occurred while receiving messages: {e}")
+            break
 
 # Define the server address (host and port)
-ip_addr = input("Enter the your ip_addr : ") # Enter the server IP-Address
+ip_addr = input("Enter the server IP address: ")
 server_host = ip_addr  # Replace with the actual IP address or hostname of the server
 server_port = 12345
 
@@ -31,7 +37,6 @@ try:
     while True:
         # Get user input and send it to the server
         message = input("Enter a message to send to the server (type 'q' to quit): ")
-        print("\n")
         if message.lower() == 'q':
             break
         
@@ -39,10 +44,10 @@ try:
 
 except ConnectionRefusedError:
     print(f"Connection to {server_host}:{server_port} was refused. Check the server status and network settings.")
-
+except KeyboardInterrupt:
+    print("User interrupted the program.")
 except Exception as e:
     print(f"An error occurred: {e}")
-
 finally:
     # Close the socket
     client_socket.close()
