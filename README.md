@@ -1,4 +1,4 @@
-<h1 id="title">Enigma-Chat/h1>
+<h1 id="title">Enigma-Chat</h1>
 
 <p><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2toZWxna3l6NXdvazYyaDBudHFucXhwdGlsNm02bDJkZG9tcXg2dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/MfnJATkfrAIBG/giphy.gif" alt="project-image"></p>
 
