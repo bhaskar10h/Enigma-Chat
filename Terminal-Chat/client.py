@@ -30,13 +30,17 @@ try:
     client_socket.connect((server_host, server_port))
     print(f"Connected to {server_host}:{server_port}")
 
+    # Set the nickname for the client
+    nickname = input("Set your nickname: ")
+    client_socket.sendall(nickname.encode('utf-8'))
+
     # Start a thread to receive messages from the server
     receive_thread = threading.Thread(target=receive_messages, args=(client_socket,))
     receive_thread.start()
 
     while True:
         # Get user input and send it to the server
-        message = input("Enter a message to send to the server (type 'q' to quit): ")
+        message = input("Enter a message to send to the server (type '/private <username> <message>' for private messages, 'q' to quit): ")
         if message.lower() == 'q':
             break
         
