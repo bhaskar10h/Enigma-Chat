@@ -55,3 +55,5 @@ This project is licensed under the Unlicense
 <li> Broadcast messages to all clients with a prefix indicating the sender </li>
 <li> Server command handling </li>
 <li> Handle disconnections gracefully </li>
+<li> Private messages </li>
+<li> Can be recognised with own nickname </li>
