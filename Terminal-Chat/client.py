@@ -9,7 +9,7 @@ def receive_messages(client_socket):
             if not data:
                 print("Connection with the server was closed.")
                 break
-            print(f"Received from server: {data.decode('utf-8')}")
+            print(f"Server: {data.decode('utf-8')}")
         except ConnectionResetError:
             print("Connection with the server was reset.")
             break
@@ -18,8 +18,7 @@ def receive_messages(client_socket):
             break
 
 # Define the server address (host and port)
-ip_addr = input("Enter the server IP address: ")
-server_host = ip_addr  # Replace with the actual IP address or hostname of the server
+server_host = '127.0.0.1'
 server_port = 12345
 
 # Create a socket object
@@ -28,9 +27,9 @@ client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 try:
     # Connect to the server
     client_socket.connect((server_host, server_port))
-    print(f"Connected to {server_host}:{server_port}")
+    print(f"Connected to the server at {server_host}:{server_port}")
 
-    # Set the nickname for the client
+    # Set your nickname for the chat
     nickname = input("Set your nickname: ")
     client_socket.sendall(nickname.encode('utf-8'))
 
@@ -40,16 +39,16 @@ try:
 
     while True:
         # Get user input and send it to the server
-        message = input("Enter a message to send to the server (type '/private <username> <message>' for private messages, 'q' to quit): ")
+        message = input("Your message (type '/private <username> <message>' for private messages, 'q' to quit): ")
         if message.lower() == 'q':
             break
         
         client_socket.sendall(message.encode('utf-8'))
 
 except ConnectionRefusedError:
-    print(f"Connection to {server_host}:{server_port} was refused. Check the server status and network settings.")
+    print(f"Connection to the server at {server_host}:{server_port} was refused. Check the server status and network settings.")
 except KeyboardInterrupt:
-    print("User interrupted the program.")
+    print("You interrupted the program.")
 except Exception as e:
     print(f"An error occurred: {e}")
 finally:
