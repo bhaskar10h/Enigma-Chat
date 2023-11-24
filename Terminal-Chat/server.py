@@ -2,7 +2,7 @@ import socket
 import threading
 
 # Define the server address (host and port)
-host = '0.0.0.0'  # Listen on all available interfaces
+host = '127.0.0.1'  # Listen on all available interfaces
 port = 12345
 
 # Create a socket object
@@ -28,6 +28,9 @@ def handle_client(client_socket, client_address):
         client_nicknames[client_socket] = nickname
         online_clients.add(client_socket)
 
+        # Send a welcome message and request nickname from the client
+        client_socket.sendall(f"Welcome, {nickname}! Type the command '/list_clients' to see who's online.".encode())
+
         # Broadcast a notification when a client connects
         for other_client_socket in client_sockets:
             if other_client_socket != client_socket:
@@ -44,7 +47,7 @@ def handle_client(client_socket, client_address):
                 client_socket.sendall(str(client_nicknames.values()).encode())
             elif decoded_data.startswith("/server_broadcast"):
                 # Broadcast a server message to all clients
-                message = "Server: " + decoded_data[len("/server_broadcast"):].strip()
+                message = "Server: " + "from" + decoded_data[len("/server_broadcast"):].strip()
                 for other_client_socket in client_sockets:
                     if other_client_socket != client_socket:
                         other_client_socket.sendall(message.encode())
@@ -65,21 +68,25 @@ def handle_client(client_socket, client_address):
     except Exception as e:
         print(f"Client {client_address} disconnected: {e}")
     finally:
-        online_clients.remove(client_socket)
-        client_sockets.remove(client_socket)
-        client_socket.close()
+        try:
+            online_clients.remove(client_socket)
+            client_sockets.remove(client_socket)
+        except Exception as e:
+            print(f"Error during socket removal: {e}")
+        finally:
+            client_socket.close()
 
 while True:
-    # Accept a connection from a client
-    client_socket, client_address = server_socket.accept()
-    print(f"Accepted connection from {client_address}")
+    try:
+        # Accept a connection from a client
+        client_socket, client_address = server_socket.accept()
+        print(f"Accepted connection from {client_address}")
 
-    # Add the new client socket to the list
-    client_sockets.append(client_socket)
+        # Add the new client socket to the list
+        client_sockets.append(client_socket)
 
-    # Send a welcome message and request nickname from the client
-    client_socket.sendall("Welcome to the chat server! Please set your nickname using /set_nickname <your_nickname>".encode())
-
-    # Start a new thread to handle the client
-    client_thread = threading.Thread(target=handle_client, args=(client_socket, client_address))
-    client_thread.start()
+        # Start a new thread to handle the client
+        client_thread = threading.Thread(target=handle_client, args=(client_socket, client_address))
+        client_thread.start()
+    except Exception as e:
+        print(f"An error occurred while accepting a connection: {e}")
