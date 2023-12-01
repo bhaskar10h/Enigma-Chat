@@ -1,5 +1,9 @@
 import socket
 import threading
+import logging
+
+# Configure logging
+logging.basicConfig(filename='server_log.txt', level=logging.INFO)
 
 # Define the server address (host and port)
 host = '127.0.0.1'  # Listen on all available interfaces
@@ -20,21 +24,24 @@ client_sockets = []
 client_nicknames = {}
 online_clients = set()
 
+# Create a dictionary to store user credentials (replace this with a database in a real-world scenario)
+user_credentials = {'user1': 'password1', 'user2': 'password2'}
+
+# Update the handle_client function to include user authentication
 def handle_client(client_socket, client_address):
     try:
-        # Get the nickname from the client
+        # Get the nickname and password from the client
         nickname_data = client_socket.recv(1024)
-        nickname = nickname_data.decode().strip()
-        client_nicknames[client_socket] = nickname
-        online_clients.add(client_socket)
+        nickname, password = nickname_data.decode().split(',')
 
-        # Send a welcome message and request nickname from the client
-        client_socket.sendall(f"Welcome, {nickname}! Type the command '/list_clients' to see who's online.".encode())
-
-        # Broadcast a notification when a client connects
-        for other_client_socket in client_sockets:
-            if other_client_socket != client_socket:
-                other_client_socket.sendall(f"{nickname} has joined.".encode())
+        if nickname in user_credentials and user_credentials[nickname] == password:
+            client_nicknames[client_socket] = nickname
+            online_clients.add(client_socket)
+            client_socket.sendall(f"Welcome, {nickname}! Type the command '/list_clients' to see who's online.".encode())
+            broadcast_user_status(f"{nickname} has joined.")
+        else:
+            client_socket.sendall("Invalid credentials. Disconnecting.".encode())
+            return
 
         while True:
             data = client_socket.recv(1024)
@@ -44,7 +51,7 @@ def handle_client(client_socket, client_address):
             decoded_data = data.decode()
             if decoded_data.startswith("/list_clients"):
                 # Send a list of connected clients to the requesting client
-                client_socket.sendall(str(client_nicknames.values()).encode())
+                client_socket.sendall(str(list(client_nicknames.values())).encode())
             elif decoded_data.startswith("/server_broadcast"):
                 # Broadcast a server message to all clients
                 message = "Server: " + "from" + decoded_data[len("/server_broadcast"):].strip()
@@ -59,6 +66,9 @@ def handle_client(client_socket, client_address):
                     target_client.sendall(f"Private message from {nickname}: {message}".encode())
                 else:
                     client_socket.sendall("User not found.".encode())
+            elif decoded_data.startswith("/custom_command"):
+                # Handle a custom command
+                client_socket.sendall("This is a custom command response.".encode())
             else:
                 # Broadcast the message to all other clients with sender's address
                 message = f"{nickname}: {decoded_data}"
@@ -66,15 +76,22 @@ def handle_client(client_socket, client_address):
                     if other_client_socket != client_socket:
                         other_client_socket.sendall(message.encode())
     except Exception as e:
-        print(f"Client {client_address} disconnected: {e}")
+        logging.error(f"Client {client_address} disconnected: {e}")
     finally:
+        # Update the online/offline status
         try:
             online_clients.remove(client_socket)
             client_sockets.remove(client_socket)
+            broadcast_user_status(f"{nickname} has left.")
         except Exception as e:
-            print(f"Error during socket removal: {e}")
+            logging.error(f"Error during socket removal: {e}")
         finally:
             client_socket.close()
+
+# Add a new function for broadcasting user status
+def broadcast_user_status(status_message):
+    for other_client_socket in client_sockets:
+        other_client_socket.sendall(status_message.encode())
 
 while True:
     try:
