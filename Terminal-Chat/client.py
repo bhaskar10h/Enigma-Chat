@@ -9,7 +9,7 @@ def receive_messages(client_socket):
             if not data:
                 print("Connection with the server was closed.")
                 break
-            print(f"Server: {data.decode('utf-8')}")
+            print(f"{data.decode('utf-8')}")
         except ConnectionResetError:
             print("Connection with the server was reset.")
             break
@@ -29,9 +29,11 @@ try:
     client_socket.connect((server_host, server_port))
     print(f"Connected to the server at {server_host}:{server_port}")
 
-    # Set your nickname for the chat
+    # Set your nickname and password for the chat
     nickname = input("Set your nickname: ")
-    client_socket.sendall(nickname.encode('utf-8'))
+    password = input("Set your password: ")
+    credentials = f"{nickname},{password}"
+    client_socket.sendall(credentials.encode('utf-8'))
 
     # Start a thread to receive messages from the server
     receive_thread = threading.Thread(target=receive_messages, args=(client_socket,))
@@ -39,7 +41,7 @@ try:
 
     while True:
         # Get user input and send it to the server
-        message = input("Your message (type '/private <username> <message>' for private messages, 'q' to quit): ")
+        message = input("Your message (type '/private <username> <message>' for private messages, '/list_clients' to see online users, 'q' to quit): ")
         if message.lower() == 'q':
             break
         
