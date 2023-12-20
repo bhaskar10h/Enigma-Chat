@@ -57,3 +57,6 @@ This project is licensed under the Unlicense
 <li> Handle disconnections gracefully </li>
 <li> Private messages </li>
 <li> Can be recognised with own nickname </li>
+<li> Encrypted Message</li>
+<li> User registration</li>
+<li> Private rooms</li>
