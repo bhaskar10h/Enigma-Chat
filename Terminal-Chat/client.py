@@ -1,58 +1,90 @@
 import socket
 import threading
+from cryptography.fernet import Fernet
 
-def receive_messages(client_socket):
-    while True:
-        try:
-            # Receive and print messages from the server
-            data = client_socket.recv(1024)
-            if not data:
-                print("Connection with the server was closed.")
-                break
-            print(f"{data.decode('utf-8')}")
-        except ConnectionResetError:
-            print("Connection with the server was reset.")
-            break
-        except Exception as e:
-            print(f"An error occurred while receiving messages: {e}")
-            break
-
-# Define the server address (host and port)
-server_host = '127.0.0.1'
-server_port = 12345
+# Server address (host and port)
+host = '127.0.0.1'
+port = 12345
 
 # Create a socket object
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-try:
-    # Connect to the server
-    client_socket.connect((server_host, server_port))
-    print(f"Connected to the server at {server_host}:{server_port}")
+# Connect to the server
+client_socket.connect((host, port))
 
-    # Set your nickname and password for the chat
-    nickname = input("Set your nickname: ")
-    password = input("Set your password: ")
-    credentials = f"{nickname},{password}"
-    client_socket.sendall(credentials.encode('utf-8'))
-
-    # Start a thread to receive messages from the server
-    receive_thread = threading.Thread(target=receive_messages, args=(client_socket,))
-    receive_thread.start()
-
+# Function to receive messages from the server
+def receive_messages():
     while True:
-        # Get user input and send it to the server
-        message = input("Your message (type '/private <username> <message>' for private messages, '/list_clients' to see online users, 'q' to quit): ")
-        if message.lower() == 'q':
-            break
-        
-        client_socket.sendall(message.encode('utf-8'))
+        try:
+            data = client_socket.recv(1024)
+            if not data:
+                break
 
-except ConnectionRefusedError:
-    print(f"Connection to the server at {server_host}:{server_port} was refused. Check the server status and network settings.")
-except KeyboardInterrupt:
-    print("You interrupted the program.")
-except Exception as e:
-    print(f"An error occurred: {e}")
-finally:
-    # Close the socket
-    client_socket.close()
+            # Decrypt the received message
+            decrypted_data = decrypt_message(data, encryption_key)
+            print(decrypted_data)
+        except Exception as e:
+            print(f"Error receiving message: {e}")
+            break
+
+# Function to send messages to the server
+def send_messages():
+    while True:
+        try:
+            message = input()
+
+            if message.startswith("/register"):
+                # Handle user registration
+                client_socket.sendall(encrypt_message(message, encryption_key))
+                response = client_socket.recv(1024).decode()
+                print(response)
+                continue
+            elif message.startswith("/join_room"):
+                # Handle joining a room
+                client_socket.sendall(encrypt_message(message, encryption_key))
+                response = client_socket.recv(1024).decode()
+                print(response)
+                continue
+            elif message.startswith("/change_password"):
+                # Handle changing password
+                client_socket.sendall(encrypt_message(message, encryption_key))
+                response = client_socket.recv(1024).decode()
+                print(response)
+                continue
+
+            # Encrypt the message before sending
+            encrypted_message = encrypt_message(message, encryption_key)
+            client_socket.sendall(encrypted_message)
+        except Exception as e:
+            print(f"Error sending message: {e}")
+            break
+
+# Function to generate a key and create a cipher suite
+def generate_key():
+    return Fernet.generate_key()
+
+def encrypt_message(message, key):
+    cipher_suite = Fernet(key)
+    return cipher_suite.encrypt(message.encode())
+
+def decrypt_message(encrypted_message, key):
+    cipher_suite = Fernet(key)
+    return cipher_suite.decrypt(encrypted_message).decode()
+
+# Get user credentials
+nickname = input("Enter your nickname: ")
+password = input("Enter your password: ")
+
+# Send user credentials to the server
+credentials = f"{nickname},{password}"
+client_socket.sendall(credentials.encode())
+
+# Receive the encryption key from the server
+encryption_key = client_socket.recv(1024)
+
+# Start threads for sending and receiving messages
+receive_thread = threading.Thread(target=receive_messages)
+send_thread = threading.Thread(target=send_messages)
+
+receive_thread.start()
+send_thread.start()
