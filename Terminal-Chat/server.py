@@ -1,6 +1,7 @@
 import socket
 import threading
 import logging
+from cryptography.fernet import Fernet
 
 # Configure logging
 logging.basicConfig(filename='server_log.txt', level=logging.INFO)
@@ -27,6 +28,40 @@ online_clients = set()
 # Create a dictionary to store user credentials (replace this with a database in a real-world scenario)
 user_credentials = {'user1': 'password1', 'user2': 'password2'}
 
+# Add a dictionary to store private rooms and their members
+private_rooms = {}
+
+# Add a dictionary to store encryption keys for each client
+encryption_keys = {}
+
+# Add a function to generate a key and create a cipher suite
+def generate_key():
+    return Fernet.generate_key()
+
+def encrypt_message(message, key):
+    cipher_suite = Fernet(key)
+    return cipher_suite.encrypt(message.encode())
+
+def decrypt_message(encrypted_message, key):
+    cipher_suite = Fernet(key)
+    return cipher_suite.decrypt(encrypted_message).decode()
+
+# Update the handle_client function to include user registration
+def register_user(username, password):
+    if username not in user_credentials:
+        user_credentials[username] = password
+        return True
+    else:
+        return False
+
+# Update the change_password function to handle changing passwords
+def change_password(username, new_password):
+    if username in user_credentials:
+        user_credentials[username] = new_password
+        return True
+    else:
+        return False
+
 # Update the handle_client function to include user authentication
 def handle_client(client_socket, client_address):
     try:
@@ -37,8 +72,11 @@ def handle_client(client_socket, client_address):
         if nickname in user_credentials and user_credentials[nickname] == password:
             client_nicknames[client_socket] = nickname
             online_clients.add(client_socket)
+            encryption_key = generate_key()
+            encryption_keys[client_socket] = encryption_key
             client_socket.sendall(f"Welcome, {nickname}! Type the command '/list_clients' to see who's online.".encode())
             broadcast_user_status(f"{nickname} has joined.")
+            client_socket.sendall(encryption_key)
         else:
             client_socket.sendall("Invalid credentials. Disconnecting.".encode())
             return
@@ -48,7 +86,8 @@ def handle_client(client_socket, client_address):
             if not data:
                 break
 
-            decoded_data = data.decode()
+            decoded_data = decrypt_message(data, encryption_keys[client_socket])
+
             if decoded_data.startswith("/list_clients"):
                 # Send a list of connected clients to the requesting client
                 client_socket.sendall(str(list(client_nicknames.values())).encode())
@@ -69,12 +108,35 @@ def handle_client(client_socket, client_address):
             elif decoded_data.startswith("/custom_command"):
                 # Handle a custom command
                 client_socket.sendall("This is a custom command response.".encode())
+            elif decoded_data.startswith("/register"):
+                # Handle user registration
+                _, register_username, register_password = decoded_data.split(" ", 2)
+                if register_user(register_username, register_password):
+                    client_socket.sendall("Registration successful. You can now log in.".encode())
+                else:
+                    client_socket.sendall("Username already exists. Choose a different one.".encode())
+            elif decoded_data.startswith("/create_room"):
+                # Handle room creation
+                room_name = decoded_data.split(" ", 1)[1]
+                private_rooms[room_name] = set([client_socket])
+                client_socket.sendall(f"Room '{room_name}' created. You are the owner.".encode())
+            elif decoded_data.startswith("/join_room"):
+                # Handle joining a room
+                room_name = decoded_data.split(" ", 1)[1]
+                if room_name in private_rooms:
+                    private_rooms[room_name].add(client_socket)
+                    client_socket.sendall(f"Joined room '{room_name}'.".encode())
+                else:
+                    client_socket.sendall(f"Room '{room_name}' does not exist.".encode())
+            elif decoded_data.startswith("/leave_chat"):
+                client_socket.sendall("Leaving the chat. Goodbye!".encode())
+                break  # exit the message handling loop
             else:
                 # Broadcast the message to all other clients with sender's address
                 message = f"{nickname}: {decoded_data}"
                 for other_client_socket in client_sockets:
                     if other_client_socket != client_socket:
-                        other_client_socket.sendall(message.encode())
+                        other_client_socket.sendall(encrypt_message(message, encryption_keys[other_client_socket]))
     except Exception as e:
         logging.error(f"Client {client_address} disconnected: {e}")
     finally:
@@ -83,6 +145,7 @@ def handle_client(client_socket, client_address):
             online_clients.remove(client_socket)
             client_sockets.remove(client_socket)
             broadcast_user_status(f"{nickname} has left.")
+            del encryption_keys[client_socket]
         except Exception as e:
             logging.error(f"Error during socket removal: {e}")
         finally:
@@ -91,7 +154,7 @@ def handle_client(client_socket, client_address):
 # Add a new function for broadcasting user status
 def broadcast_user_status(status_message):
     for other_client_socket in client_sockets:
-        other_client_socket.sendall(status_message.encode())
+        other_client_socket.sendall(encrypt_message(status_message, encryption_keys[other_client_socket]))
 
 while True:
     try:
